@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Terrysome Investments · Labour Export Uganda</title>
-    <!-- Font Awesome (free icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -12,86 +11,60 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            scroll-behavior: smooth;
         }
 
-        /* full screen slideshow background (behind all content) */
-        #bg-slideshow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            transition: background-image 1s ease-in-out;
-            will-change: background-image;
-        }
-
-        /* dark overlay for readability */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* dark overlay to make text pop */
-            z-index: -1;
-        }
-
-        /* main content layer */
-        .content {
-            position: relative;
-            z-index: 10;
-            color: white; /* base text white, but we will use cards with bg */
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 1.5rem 2rem 2rem;
-            backdrop-filter: blur(0px); /* optional: no blur */
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* color palette */
         :root {
             --sky-blue: #87CEEB;
-            --jean-blue: #3173a3; /* deeper blue like denim */
+            --jean-blue: #3173a3; 
+            --dark-bg: #0d161f;
             --white: #ffffff;
             --black: #1e1e1e;
-            --light-bg: rgba(255, 255, 255, 0.85); /* for cards */
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.92);
         }
 
         body {
-            background-color: #111; /* fallback */
+            background-color: var(--dark-bg);
+            /* Rich, subtle gradient to replace the old image background */
+            background-image: radial-gradient(circle at top right, #1a2a3a, var(--dark-bg));
+            color: var(--white);
+            min-height: 100vh;
         }
 
-        /* header / logo area */
+        .content-wrapper {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem; /* Spacing between major sections */
+        }
+
+        /* Header */
         .header {
             display: flex;
             align-items: center;
             gap: 1.5rem;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             padding: 0.8rem 1.5rem;
             border-radius: 60px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 15px;
+            z-index: 100;
         }
         .logo {
-            height: 70px;
+            height: 60px;
             width: auto;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .company-name {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             letter-spacing: 1px;
-            color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .company-name span {
@@ -109,386 +82,487 @@
             border: 1px solid var(--sky-blue);
         }
 
-        /* blinking "jobs abroad" notification */
+        /* Hero & Carousel Section Layout */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .hero-text h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 5px black;
+            margin-bottom: 1rem;
+        }
+        .hero-text p {
+            font-size: 1.3rem;
+            color: #d1e8ff;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
         .blink-notify {
             background-color: var(--jean-blue);
             color: white;
-            padding: 0.7rem 1.8rem;
+            padding: 0.6rem 1.5rem;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             display: inline-block;
-            margin: 1.5rem 0 1rem;
+            margin-bottom: 1.5rem;
             box-shadow: 0 0 15px var(--sky-blue);
             border: 2px solid var(--sky-blue);
             text-decoration: none;
             transition: 0.3s;
-        }
-        .blink-notify i {
-            margin-right: 10px;
-            color: gold;
+            animation: blinker 1.5s linear infinite;
         }
         .blink-notify:hover {
             background-color: var(--sky-blue);
             color: black;
-            transform: scale(1.02);
+            transform: scale(1.05);
         }
-        /* blinking animation */
-        .blink {
-            animation: blinker 1.2s linear infinite;
-        }
-        @keyframes blinker {
-            50% { opacity: 0.4; }
-        }
+        @keyframes blinker { 50% { opacity: 0.6; } }
 
-        /* buttons */
+        /* Buttons */
         .btn-group {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
-            margin: 2rem 0 1.5rem;
         }
         .btn {
-            padding: 0.9rem 2rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 40px;
             font-weight: 600;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: 0.25s;
-            border: 2px solid transparent;
-            font-size: 1.1rem;
+            font-size: 1rem;
             box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
         }
-        .btn i {
+        .btn-wa { background-color: #25D366; color: white; }
+        .btn-wa:hover { background-color: #128C7E; }
+        .btn-email { background-color: var(--jean-blue); color: white; }
+        .btn-email:hover { background-color: #1e4e73; }
+        
+        /* Auto Carousel */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .carousel-slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        .carousel-slide.active { opacity: 1; z-index: 1; }
+        .carousel-overlay {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+        .carousel-text {
+            color: var(--sky-blue);
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px black;
+            letter-spacing: 1px;
+        }
+        
+        /* Shift Buttons (Carousel) */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 40px; height: 40px;
+            border-radius: 50%;
             font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
         }
-        .btn-wa {
-            background-color: #25D366;
-            color: white;
+        .carousel-btn:hover { background: var(--sky-blue); color: black; }
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+
+        /* Section Headings */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--sky-blue);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
         }
-        .btn-wa:hover {
-            background-color: #128C7E;
-        }
-        .btn-email {
-            background-color: #3173a3;
-            color: white;
-        }
-        .btn-email:hover {
-            background-color: #1e4e73;
-        }
-        .btn-call {
-            background-color: #000;
-            color: white;
-        }
-        .btn-call:hover {
-            background-color: #333;
-        }
-        .btn-map {
-            background-color: var(--sky-blue);
-            color: black;
-            border-color: white;
-        }
-        .btn-map:hover {
-            background-color: white;
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: #ccc;
         }
 
-        /* service sections (two columns) */
+        /* Advantages Grid (From Code 2) */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .info-card {
+            background: var(--card-bg);
+            color: var(--black);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-top: 5px solid var(--jean-blue);
+            transition: transform 0.3s;
+        }
+        .info-card:hover { transform: translateY(-5px); }
+        .info-card i { font-size: 2.5rem; color: var(--sky-blue); margin-bottom: 1rem; }
+        .info-card h3 { font-size: 1.5rem; color: var(--jean-blue); margin-bottom: 1rem; }
+        .info-card p { font-size: 1.05rem; line-height: 1.6; }
+
+        /* Image Grid for Workers (From Code 2) */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .image-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            aspect-ratio: 4/3;
+        }
+        .image-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .image-card:hover img { transform: scale(1.1); }
+        .image-label {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(49, 115, 163, 0.9);
+            color: white;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-top: 2px solid var(--sky-blue);
+        }
+
+        /* Services Grid (From Code 1) */
         .services-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
-            margin: 3rem 0;
         }
-        .service-card {
-            background: var(--card-bg);
-            border-radius: 28px;
-            padding: 2rem 1.8rem;
-            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.25);
-            border-top: 5px solid var(--jean-blue);
-            backdrop-filter: blur(2px);
-            color: var(--black);
-        }
-        .service-card h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--jean-blue);
-            border-left: 7px solid var(--sky-blue);
-            padding-left: 1rem;
-        }
-        .service-card h2 i {
-            color: var(--sky-blue);
-            margin-right: 10px;
-        }
-        .service-list {
-            list-style: none;
-        }
+        .service-list { list-style: none; text-align: left; }
         .service-list li {
             margin-bottom: 1rem;
             font-weight: 500;
             display: flex;
             align-items: flex-start;
             gap: 12px;
+            font-size: 1.1rem;
         }
-        .service-list i {
-            color: var(--jean-blue);
-            font-size: 1.3rem;
-            min-width: 26px;
-            margin-top: 3px;
-        }
-        .service-list strong {
-            color: #000;
-        }
+        .service-list i { color: var(--jean-blue); font-size: 1.3rem; min-width: 26px; margin-top: 3px; }
 
-        /* contact area */
+        /* Contact Section */
         .contact-section {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            border-radius: 40px;
-            padding: 2rem 2.5rem;
-            margin: 2rem 0 1rem;
-            border: 1px solid var(--sky-blue);
-            color: white;
-        }
-        .contact-section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1.5rem;
-            color: var(--sky-blue);
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 30px;
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.8rem;
+            margin-top: 2rem;
         }
         .contact-item {
-            background: rgba(255,255,255,0.1);
-            padding: 1.5rem 1rem;
-            border-radius: 24px;
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 20px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
         }
-        .contact-item i {
-            font-size: 2rem;
-            color: var(--sky-blue);
-            margin-bottom: 0.8rem;
-        }
-        .contact-item h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--sky-blue);
-        }
-        .contact-item p {
-            font-size: 1.1rem;
-        }
-        .contact-item a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            display: block;
-            margin: 0.2rem 0;
-        }
-        .contact-item a:hover {
-            color: var(--sky-blue);
-            text-decoration: underline;
-        }
+        .contact-item i { font-size: 2rem; color: var(--sky-blue); margin-bottom: 1rem; }
+        .contact-item h3 { color: var(--sky-blue); margin-bottom: 0.5rem; }
+        .contact-item a { color: white; text-decoration: none; display: block; margin: 0.3rem 0; }
+        .contact-item a:hover { color: var(--sky-blue); }
+
         .footer-note {
             text-align: center;
-            margin-top: 2rem;
+            margin-top: 1rem;
             font-size: 0.9rem;
-            color: rgba(255,255,255,0.8);
-            border-top: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.6);
+            border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 1.5rem;
         }
-        .footer-note a {
-            color: var(--sky-blue);
+
+        /* Page Shift Buttons (Fixed Navigation) */
+        .page-shift-nav {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+        .shift-btn {
+            background: var(--jean-blue);
+            color: white;
+            border: 2px solid var(--sky-blue);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: 0.3s;
+        }
+        .shift-btn:hover {
+            background: var(--sky-blue);
+            color: black;
+            transform: scale(1.1);
         }
 
-        /* responsive */
-        @media (max-width: 750px) {
-            .content { padding: 1rem; }
-            .header { flex-direction: column; text-align: center; }
-            .badge { margin-left: 0; }
-            .services-grid { grid-template-columns: 1fr; }
-            .company-name { font-size: 1.6rem; }
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .hero-section { grid-template-columns: 1fr; text-align: center; }
             .btn-group { justify-content: center; }
+            .carousel-container { height: 350px; }
         }
-        @media (max-width: 480px) {
-            .btn-group .btn { width: 100%; justify-content: center; }
-        }
-        /* utility */
-        .text-glow {
-            text-shadow: 2px 2px 5px black;
-        }
-        .highlight {
-            color: var(--sky-blue);
-            font-weight: 600;
+        @media (max-width: 600px) {
+            .header { justify-content: center; }
+            .badge { margin-left: 0; }
+            .hero-text h1 { font-size: 2.2rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .page-shift-nav { bottom: 15px; right: 15px; }
+            .shift-btn { width: 35px; height: 35px; font-size: 1rem; }
         }
     </style>
 </head>
-<body>
-    <!-- background slideshow container (full page) -->
-    <div id="bg-slideshow"></div>
-    <div class="overlay"></div> <!-- dark overlay for readability -->
+<body id="top">
 
-    <!-- main content -->
-    <div class="content">
-        <!-- header with logo -->
-        <div class="header">
-            <img src="https://i.ibb.co/7JrP6GZN/Terrysome-Logo.jpg" alt="Terrysome Investments Logo" class="logo" onerror="this.style.display='none'">
+    <div class="page-shift-nav">
+        <a href="#top" class="shift-btn" title="Scroll Top"><i class="fas fa-arrow-up"></i></a>
+        <a href="#portfolio" class="shift-btn" title="Next Section"><i class="fas fa-arrow-down"></i></a>
+    </div>
+
+    <div class="content-wrapper">
+        <header class="header">
+            <img src="https://i.ibb.co/7JrP6GZN/Terrysome-Logo.jpg" alt="Terrysome Logo" class="logo" onerror="this.style.display='none'">
             <div class="company-name">TERRYSOME <span>INVESTMENTS LTD</span></div>
-            <div class="badge"><i class="fas fa-check-circle"></i> licensed · 10 years</div>
-        </div>
+            <div class="badge"><i class="fas fa-check-circle"></i> Licensed · 10+ Years</div>
+        </header>
 
-        <!-- blinking jobs abroad notification (static) -->
-        <a href="https://wa.me/256700346519?text=hello%2C%20I%20got%20your%20number%20from%20the%20Terrysome%20website%2C%20I%20would%20like%20to%20talk%20to%20you%20about" target="_blank" class="blink-notify blink">
-            <i class="fas fa-bell"></i> JOBS ABROAD <i class="fas fa-arrow-right"></i>
-        </a>
-
-        <!-- main tagline & CTA -->
-        <div style="margin: 1rem 0 0.5rem; max-width: 800px;">
-            <h1 style="font-size: 2.8rem; line-height: 1.2; text-shadow: 3px 3px 6px black;">Exporting unskilled, semi‑skilled & skilled talent from Uganda to the world</h1>
-            <p style="font-size: 1.4rem; margin-top: 0.5rem; opacity: 0.95;"><i class="fas fa-globe-africa" style="color: var(--sky-blue);"></i> Saudi Arabia · Dubai · Qatar · Oman · Turkey · Bahrain · Kuwait · Jordan · South America · Abu Dhabi ·</p>
-        </div>
-
-        <!-- four action buttons -->
-        <div class="btn-group">
-            <a href="https://wa.me/256709827964?text=hello%2C%20I%20got%20your%20number%20from%20the%20Terrysome%20website%2C%20I%20would%20like%20to%20talk%20to%20you%20about" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> Partner with us</a>
-            <a href="mailto:business@terrysome.com?subject=Inquiry%20from%20Terrysome%20Website&body=hello%2C%20I%20got%20your%20number%20from%20the%20Terrysome%20website%2C%20I%20would%20like%20to%20talk%20to%20you%20about" class="btn btn-email"><i class="fas fa-envelope"></i> Email now</a>
-            <a href="tel:+256709827964" class="btn btn-call"><i class="fas fa-phone-alt"></i> Call us now</a>
-            <a href="https://maps.app.goo.gl/qGKmBX1YXABpy3n67" target="_blank" class="btn btn-map"><i class="fas fa-map-marker-alt"></i> Visit us</a>
-        </div>
-
-        <!-- Two core service offerings (foreign partners / local recruits) -->
-        <div class="services-grid">
-            <!-- For foreign partners -->
-            <div class="service-card">
-                <h2><i class="fas fa-handshake"></i> For Foreign Partners</h2>
-                <ul class="service-list">
-                    <li><i class="fas fa-search"></i> <strong>Talent Sourcing & Headhunting</strong> – Vast local networks, cultural alignment</li>
-                    <li><i class="fas fa-user-check"></i> <strong>Vetting & Screening</strong> – Background, education, interviews</li>
-                    <li><i class="fas fa-chart-line"></i> <strong>Trade Testing & Upskilling</strong> – House maids, drivers, nurses, cleaners</li>
-                    <li><i class="fas fa-gavel"></i> <strong>Regulatory & Legal Compliance</strong> – Bilateral agreements, contracts</li>
-                    <li><i class="fas fa-plane-departure"></i> <strong>Deployment Logistics</strong> – Flights, onboarding, arrival</li>
-                    <li><i class="fas fa-shield-alt"></i> <strong>Replacement Guarantee</strong> – Performance within probation</li>
-                </ul>
+        <section class="hero-section" id="home">
+            <div class="hero-text">
+                <a href="https://wa.me/256700346519" target="_blank" class="blink-notify">
+                    <i class="fas fa-bell"></i> JOBS ABROAD <i class="fas fa-arrow-right"></i>
+                </a>
+                <h1>Exporting talent from Uganda to the world</h1>
+                <p><i class="fas fa-globe-africa" style="color: var(--sky-blue);"></i> Saudi Arabia · Dubai · Qatar · Oman · Turkey · Bahrain · Kuwait · Jordan · South America</p>
+                <div class="btn-group">
+                    <a href="https://wa.me/256709827964" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> Partner With Us</a>
+                    <a href="#contact" class="btn btn-email"><i class="fas fa-envelope"></i> Email Us Today</a>
+                </div>
             </div>
-            <!-- For local recruits -->
-            <div class="service-card">
-                <h2><i class="fas fa-users"></i> For Ugandan Workers</h2>
-                <ul class="service-list">
-                    <li><i class="fas fa-briefcase"></i> <strong>Job Matching</strong> – Skill & salary alignment</li>
-                    <li><i class="fas fa-passport"></i> <strong>Passport & Visa Processing</strong> – Full guidance</li>
-                    <li><i class="fas fa-chalkboard-teacher"></i> <strong>Pre‑Departure Orientation (PDOS)</strong> – Interpol, Culture, laws, language</li>
-                    <li><i class="fas fa-stethoscope"></i> <strong>Medical & Fitness Clearance</strong> – Accredited screenings</li>
-                    <li><i class="fas fa-coins"></i> <strong>Financial Literacy Training</strong> – Remittances, saving</li>
-                    <li><i class="fas fa-headset"></i> <strong>Welfare & On‑Site Support</strong> – 24/7 hotline, local liaison</li>
-                </ul>
-            </div>
-        </div>
 
-        <!-- detailed contact section (grouped numbers) -->
-        <div class="contact-section" id="contact">
-            <h2><i class="fas fa-address-card"></i> Contact us — Terrysome Investments</h2>
+            <div class="carousel-container">
+                <button class="carousel-btn prev-btn" onclick="shiftSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next-btn" onclick="shiftSlide(1)"><i class="fas fa-chevron-right"></i></button>
+                
+                <div id="slides-wrapper">
+                    </div>
+            </div>
+        </section>
+
+        <section id="advantage">
+            <h2 class="section-title">The Ugandan Advantage</h2>
+            <p class="section-subtitle">Why recruiters globally prioritize our workers for their projects.</p>
+            <div class="grid-3">
+                <div class="info-card">
+                    <i class="fas fa-sync-alt"></i>
+                    <h3>Highly Adaptable</h3>
+                    <p>Ugandan workers integrate seamlessly. We provide comprehensive Pre-Departure Orientation covering culture, laws, and language basics.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Cost-Effective & Profitable</h3>
+                    <p>Access a young, energetic labor supply that maximizes your project profitability without compromising on work ethic or service quality.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>English Speaking</h3>
+                    <p>Uganda is an English-speaking nation, ensuring smooth communication, fewer misunderstandings, and rapid onboarding.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio">
+            <h2 class="section-title">Our Talent Portfolio</h2>
+            <p class="section-subtitle">Strictly vetted, trade-tested professionals tailored to your industry.</p>
+            <div class="image-grid">
+                <div class="image-card"><img src="https://i.ibb.co/wh6mpQxK/delivery.jpg" alt="Delivery"><div class="image-label">Delivery Personnel</div></div>
+                <div class="image-card"><img src="https://i.ibb.co/mF9prSGX/maid.jpg" alt="Maids"><div class="image-label">House Maids</div></div>
+                <div class="image-card"><img src="https://i.ibb.co/5Wwzz4HT/construction.jpg" alt="Construction"><div class="image-label">Construction</div></div>
+                <div class="image-card"><img src="https://i.ibb.co/Q7fQfqTb/cleaner.jpg" alt="Cleaners"><div class="image-label">Cleaners</div></div>
+                <div class="image-card"><img src="https://i.ibb.co/xSg7JSdT/security.jpg" alt="Security"><div class="image-label">Security Guards</div></div>
+                <div class="image-card"><img src="https://i.ibb.co/q3DXnRyg/caregiver.jpg" alt="Caregivers"><div class="image-label">Caregivers & Nurses</div></div>
+                <div class="image-card"><img src="https://i.ibb.co/KnSvYj6/nanny.jpg" alt="Nannies"><div class="image-label">Nannies</div></div>
+                <div class="image-card"><img src="https://i.ibb.co/hR21kBnC/driver.jpg" alt="Drivers"><div class="image-label">Professional Drivers</div></div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="services-grid">
+                <div class="info-card" style="text-align: left;">
+                    <h2 style="color: var(--jean-blue); margin-bottom: 1.5rem; font-size: 1.8rem;"><i class="fas fa-handshake" style="font-size: 1.8rem;"></i> For Foreign Partners</h2>
+                    <ul class="service-list">
+                        <li><i class="fas fa-search"></i> <strong>Talent Sourcing:</strong> Leveraging vast local networks for cultural alignment.</li>
+                        <li><i class="fas fa-user-check"></i> <strong>Vetting & Screening:</strong> Rigorous background and education checks.</li>
+                        <li><i class="fas fa-tools"></i> <strong>Trade Testing:</strong> Ensuring recruits meet international standards.</li>
+                        <li><i class="fas fa-gavel"></i> <strong>Legal Compliance:</strong> Management of bilateral agreements and contracts.</li>
+                        <li><i class="fas fa-shield-alt"></i> <strong>Replacement Guarantee:</strong> Performance assurance within probation.</li>
+                    </ul>
+                </div>
+                <div class="info-card" style="text-align: left;">
+                    <h2 style="color: var(--jean-blue); margin-bottom: 1.5rem; font-size: 1.8rem;"><i class="fas fa-users" style="font-size: 1.8rem;"></i> For Ugandan Workers</h2>
+                    <ul class="service-list">
+                        <li><i class="fas fa-briefcase"></i> <strong>Job Matching:</strong> Skill, experience, and salary alignment.</li>
+                        <li><i class="fas fa-passport"></i> <strong>Visa Processing:</strong> Full guidance on passports and travel documents.</li>
+                        <li><i class="fas fa-chalkboard-teacher"></i> <strong>Pre‑Departure Prep:</strong> Interpol, culture, laws, and language.</li>
+                        <li><i class="fas fa-stethoscope"></i> <strong>Medical Clearance:</strong> Accredited health screenings prior to deployment.</li>
+                        <li><i class="fas fa-headset"></i> <strong>On‑Site Support:</strong> 24/7 welfare hotline and local liaison assistance.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact">
+            <h2 class="section-title" style="font-size: 2.2rem; margin-bottom: 0;">Contact Us</h2>
             <div class="contact-grid">
                 <div class="contact-item">
                     <i class="fas fa-building"></i>
                     <h3>Office</h3>
                     <a href="tel:+256393256602">+256 393 256602</a>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h3>Mobile</h3>
                     <a href="tel:+256706496674">+256 706 496674</a>
                 </div>
                 <div class="contact-item">
-                    <i class="fas fa-briefcase"></i>
-                    <h3>Job offers</h3>
-                    <a href="https://wa.me/256709827964?text=hello%2C%20I%20got%20your%20number%20from%20the%20Terrysome%20website%2C%20I%20would%20like%20to%20talk%20to%20you%20about" target="_blank">+256 709 827964</a>
-                    <a href="https://wa.me/256700346519?text=hello%2C%20I%20got%20your%20number%20from%20the%20Terrysome%20website%2C%20I%20would%20like%20to%20talk%20to%20you%20about" target="_blank">+256 700 346519</a>
+                    <i class="fas fa-handshake"></i>
+                    <h3>Partnership / Jobs</h3>
+                    <a href="https://wa.me/256709827964" target="_blank">+256 709 827964 </a>
+                    <a href="https://wa.me/256700346519" target="_blank">+256 700 346519 </a>
                 </div>
                 <div class="contact-item">
-                    <i class="fas fa-handshake"></i>
-                    <h3>Partnership</h3>
-                    <a href="https://wa.me/256709827964?text=hello%2C%20I%20got%20your%20number%20from%20the%20Terrysome%20website%2C%20I%20would%20like%20to%20talk%20to%20you%20about" target="_blank">+256 709 827964</a>
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <a href="mailto:business@terrysome.com">business@terrysome.com</a>
+                    <a href="mailto:jobs@terrysome.com">jobs@terrysome.com</a>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 2rem;">
-                <p style="font-size: 1.3rem;"><i class="fas fa-map-pin" style="color: var(--sky-blue);"></i> Visit our office: <a href="https://maps.app.goo.gl/qGKmBX1YXABpy3n67" target="_blank" style="color: white; text-decoration: underline;">Kampala, Uganda (Google Maps)</a></p>
+            
+            <div class="footer-note">
+                <p>🚀 10+ years connecting Ugandan talent with the world | Fully licensed Labour Export Company</p>
+                <p>© Terrysome Investments Ltd — Professional vetting since 2015</p>
             </div>
-        </div>
-
-        <!-- footer with small note -->
-        <div class="footer-note">
-            <p>🚀 10+ years connecting Ugandan talent with the world | Fully licensed Labour Export Company (Uganda) <br>
-            <i class="fas fa-phone"></i> Office: +256 393 256602 |  <i class="fas fa-whatsapp"></i> Job offers: +256 709 827964 / +256 700 346519 / jobs@terrysome.com |  Partnership: +256 709 827964 / business@terrysome.com</p>
-            <p>© Terrysome Investments Ltd — islamic dress code respected, professional vetting since 2015</p>
-        </div>
+        </section>
     </div>
 
-    <!-- JavaScript for slideshow background (shuffle + 2 sec interval) -->
     <script>
-        (function() {
-            // all images as provided
-            const images = [
-                "https://i.ibb.co/LLNsWv3/web-air-port.jpg",
-                "https://i.ibb.co/spCxkz2c/Terrysome-HD-girls-7.jpg",
-                "https://i.ibb.co/wF0BHNfF/web-airport-2.jpg",
-                "https://i.ibb.co/j9RMZr9k/Terrysome-HD-girls-5.jpg",
-                "https://i.ibb.co/MkX07NDK/web-airport.jpg",
-                "https://i.ibb.co/Q35Q9WNt/Terrysome-HD-girls-6.jpg",
-                "https://i.ibb.co/Rp7RrWjr/web-cleaner-3.jpg",
-                "https://i.ibb.co/G48r6wCR/Terrysome-HD-girls-4.jpg",
-                "https://i.ibb.co/N2ZjKSfK/web-house-help-2.jpg",
-                "https://i.ibb.co/0pdcNrjS/Terrysome-HD-girls-2.jpg",
-                "https://i.ibb.co/HDB9HytZ/web-cleaner.jpg",
-                "https://i.ibb.co/tT1FjB2f/web-deal-4.jpg",
-                "https://i.ibb.co/B26dHLbN/Terrysome-HD-girls-3.jpg",
-                "https://i.ibb.co/Mys7wWX1/web-house-help-3.jpg",
-                "https://i.ibb.co/Kzqmbmts/web-house-help-4.jpg",
-                "https://i.ibb.co/gZ2JPMZ3/Terrysome-HD-girls-1.jpg",
-                "https://i.ibb.co/fdxds8D7/web-security.jpg"
-            ];
+        const slideData = [
+            { img: "https://i.ibb.co/B26dHLbN/Terrysome-HD-girls-3.jpg", text: "Ready For Global Deployment" },
+            { img: "https://i.ibb.co/Mys7wWX1/web-house-help-3.jpg", text: "Dedicated Professional House Maids" },
+            { img: "https://i.ibb.co/fdxds8D7/web-security.jpg", text: "Vigilant & Trained Security" },
+            { img: "https://i.ibb.co/HDB9HytZ/web-cleaner.jpg", text: "Commercial Space Cleaning Teams" },
+            { img: "https://i.ibb.co/spCxkz2c/Terrysome-HD-girls-7.jpg", text: "Highly Adaptable Skilled Labour" }
+        ];
 
-            // shuffle array (Fisher–Yates)
-            function shuffleArray(arr) {
-                for (let i = arr.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
-                }
-                return arr;
-            }
+        const wrapper = document.getElementById('slides-wrapper');
+        let currentSlide = 0;
+        let slideInterval;
 
-            const shuffledImages = shuffleArray([...images]); // new shuffled copy
+        // Initialize Slides
+        slideData.forEach((data, index) => {
+            const slide = document.createElement('div');
+            slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
+            slide.style.backgroundImage = `url('${data.img}')`;
+            
+            const overlay = document.createElement('div');
+            overlay.className = 'carousel-overlay';
+            overlay.innerHTML = `<div class="carousel-text">${data.text}</div>`;
+            
+            slide.appendChild(overlay);
+            wrapper.appendChild(slide);
+        });
 
-            const bgDiv = document.getElementById('bg-slideshow');
-            let index = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
 
-            // set first image
-            if (shuffledImages.length > 0) {
-                bgDiv.style.backgroundImage = `url('${shuffledImages[index]}')`;
-            }
-
-            // change every 2 seconds
-            setInterval(() => {
-                if (shuffledImages.length === 0) return;
-                index = (index + 1) % shuffledImages.length;
-                bgDiv.style.backgroundImage = `url('${shuffledImages[index]}')`;
-            }, 2000); // 2000ms = 2 sec
-        })();
-    </script>
-
-    <!-- ensure that any image load error doesn't break layout -->
-    <script>
-        // Optional: handle background image load errors? Not necessary, but we can keep.
-        // Prefill message info: all whatsapp/mail links already contain the required text.
-    </script>
-
-    <!-- additional tiny fix: force logo fallback if url fails (but we keep style) -->
-    <style>
-        img.logo[src=""] {
-            display: none;
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            slides[index].classList.add('active');
         }
-    </style>
+
+        function shiftSlide(direction) {
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            showSlide(currentSlide);
+            resetInterval();
+        }
+
+        function nextSlide() {
+            shiftSlide(1);
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 3000); // 3 second interval
+        }
+
+        // Start Auto Slider
+        resetInterval();
+        
+        // Dynamic Page Shift Button logic (changes anchor based on scroll)
+        window.addEventListener('scroll', () => {
+            const shiftBtn = document.querySelector('.fa-arrow-down').parentElement;
+            if(window.scrollY < 400) {
+                shiftBtn.href = '#advantage';
+            } else if (window.scrollY < 1200) {
+                shiftBtn.href = '#portfolio';
+            } else if (window.scrollY < 2000) {
+                shiftBtn.href = '#services';
+            } else {
+                shiftBtn.href = '#contact';
+            }
+        });
+    </script>
 </body>
 </html>
