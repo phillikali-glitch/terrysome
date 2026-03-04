@@ -1,568 +1,1082 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Terrysome Investments · Labour Export Uganda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            scroll-behavior: smooth;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terrysome Investments · Labour Export Uganda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        :root {
-            --sky-blue: #87CEEB;
-            --jean-blue: #3173a3; 
-            --dark-bg: #0d161f;
-            --white: #ffffff;
-            --black: #1e1e1e;
-            --card-bg: rgba(255, 255, 255, 0.92);
-        }
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --gold-dim: rgba(201,168,76,0.15);
+      --navy: #0A1628;
+      --navy-mid: #112240;
+      --navy-light: #1A3357;
+      --sky: #87CEEB;
+      --jean: #3173a3;
+      --white: #F8F6F1;
+      --muted: rgba(248,246,241,0.55);
+      --card: rgba(17,34,64,0.75);
+      --radius: 16px;
+    }
 
-        body {
-            background-color: var(--dark-bg);
-            /* Rich, subtle gradient to replace the old image background */
-            background-image: radial-gradient(circle at top right, #1a2a3a, var(--dark-bg));
-            color: var(--white);
-            min-height: 100vh;
-        }
+    html { scroll-behavior: smooth; }
 
-        .content-wrapper {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 1.5rem 2rem 5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 4rem; /* Spacing between major sections */
-        }
+    body {
+      background-color: var(--navy);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-        /* Header */
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 0.8rem 1.5rem;
-            border-radius: 60px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-            top: 15px;
-            z-index: 100;
-        }
-        .logo {
-            height: 60px;
-            width: auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .company-name {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        .company-name span {
-            color: var(--sky-blue);
-            font-weight: 300;
-        }
-        .badge {
-            background-color: var(--jean-blue);
-            color: white;
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-left: auto;
-            border: 1px solid var(--sky-blue);
-        }
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
 
-        /* Hero & Carousel Section Layout */
-        .hero-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: center;
-        }
-        
-        .hero-text h1 {
-            font-size: 3rem;
-            line-height: 1.2;
-            text-shadow: 2px 2px 5px black;
-            margin-bottom: 1rem;
-        }
-        .hero-text p {
-            font-size: 1.3rem;
-            color: #d1e8ff;
-            margin-bottom: 2rem;
-            line-height: 1.5;
-        }
+    /* ── BACKGROUND ORBS ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(49,115,163,0.2), transparent 70%); top: -150px; right: -100px; }
+    .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(201,168,76,0.12), transparent 70%); bottom: 20%; left: -150px; }
 
-        .blink-notify {
-            background-color: var(--jean-blue);
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 15px var(--sky-blue);
-            border: 2px solid var(--sky-blue);
-            text-decoration: none;
-            transition: 0.3s;
-            animation: blinker 1.5s linear infinite;
-        }
-        .blink-notify:hover {
-            background-color: var(--sky-blue);
-            color: black;
-            transform: scale(1.05);
-        }
-        @keyframes blinker { 50% { opacity: 0.6; } }
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 1rem 3rem;
+      background: rgba(10,22,40,0.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      gap: 1.5rem;
+    }
+    .nav-logo {
+      height: 48px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(201,168,76,0.2);
+    }
+    .nav-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--white);
+    }
+    .nav-brand span { color: var(--gold); font-weight: 400; }
+    .nav-badge {
+      margin-left: auto;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.3rem 1rem;
+      border-radius: 50px;
+      background: rgba(201,168,76,0.08);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
 
-        /* Buttons */
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border-radius: 40px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.25s;
-            font-size: 1rem;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            border: none;
-            cursor: pointer;
-        }
-        .btn-wa { background-color: #25D366; color: white; }
-        .btn-wa:hover { background-color: #128C7E; }
-        .btn-email { background-color: var(--jean-blue); color: white; }
-        .btn-email:hover { background-color: #1e4e73; }
-        
-        /* Auto Carousel */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 450px;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-        .carousel-slide {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-            background-size: cover;
-            background-position: center;
-        }
-        .carousel-slide.active { opacity: 1; z-index: 1; }
-        .carousel-overlay {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            padding: 40px 20px 20px;
-            text-align: center;
-        }
-        .carousel-text {
-            color: var(--sky-blue);
-            font-size: 1.8rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 4px black;
-            letter-spacing: 1px;
-        }
-        
-        /* Shift Buttons (Carousel) */
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 10;
-            transition: 0.3s;
-        }
-        .carousel-btn:hover { background: var(--sky-blue); color: black; }
-        .prev-btn { left: 15px; }
-        .next-btn { right: 15px; }
+    /* ── PAGE WRAPPER ── */
+    .page { position: relative; z-index: 1; }
 
-        /* Section Headings */
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--sky-blue);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 3rem;
-            color: #ccc;
-        }
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
 
-        /* Advantages Grid (From Code 2) */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .info-card {
-            background: var(--card-bg);
-            color: var(--black);
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            border-top: 5px solid var(--jean-blue);
-            transition: transform 0.3s;
-        }
-        .info-card:hover { transform: translateY(-5px); }
-        .info-card i { font-size: 2.5rem; color: var(--sky-blue); margin-bottom: 1rem; }
-        .info-card h3 { font-size: 1.5rem; color: var(--jean-blue); margin-bottom: 1rem; }
-        .info-card p { font-size: 1.05rem; line-height: 1.6; }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+    }
 
-        /* Image Grid for Workers (From Code 2) */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        .image-card {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-            aspect-ratio: 4/3;
-        }
-        .image-card img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-        .image-card:hover img { transform: scale(1.1); }
-        .image-label {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            background: rgba(49, 115, 163, 0.9);
-            color: white;
-            padding: 12px 0;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.1rem;
-            border-top: 2px solid var(--sky-blue);
-        }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--white);
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
 
-        /* Services Grid (From Code 1) */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-        .service-list { list-style: none; text-align: left; }
-        .service-list li {
-            margin-bottom: 1rem;
-            font-weight: 500;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 1.1rem;
-        }
-        .service-list i { color: var(--jean-blue); font-size: 1.3rem; min-width: 26px; margin-top: 3px; }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+      max-width: 480px;
+    }
 
-        /* Contact Section */
-        .contact-section {
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 30px;
-            padding: 3rem 2.5rem;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.8rem;
-            margin-top: 2rem;
-        }
-        .contact-item {
-            background: rgba(255,255,255,0.05);
-            padding: 1.5rem;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .contact-item i { font-size: 2rem; color: var(--sky-blue); margin-bottom: 1rem; }
-        .contact-item h3 { color: var(--sky-blue); margin-bottom: 0.5rem; }
-        .contact-item a { color: white; text-decoration: none; display: block; margin: 0.3rem 0; }
-        .contact-item a:hover { color: var(--sky-blue); }
+    .destinations {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .dest-tag {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: var(--sky);
+      background: rgba(135,206,235,0.08);
+      border: 1px solid rgba(135,206,235,0.2);
+      padding: 0.3rem 0.75rem;
+      border-radius: 50px;
+    }
 
-        .footer-note {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.6);
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 1.5rem;
-        }
+    /* BLINK BUTTON — preserved as requested */
+    .blink-jobs {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--jean);
+      color: white;
+      padding: 0.7rem 1.6rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 2px solid var(--sky);
+      box-shadow: 0 0 20px rgba(135,206,235,0.3), 0 0 40px rgba(135,206,235,0.1);
+      margin-bottom: 2rem;
+      transition: transform 0.2s, background 0.2s;
+      animation: blinker 1.5s ease-in-out infinite;
+    }
+    .blink-jobs:hover {
+      background: var(--sky);
+      color: var(--navy);
+      transform: scale(1.04);
+      animation-play-state: paused;
+    }
+    @keyframes blinker { 0%,100% { opacity:1; } 50% { opacity:0.55; } }
 
-        /* Page Shift Buttons (Fixed Navigation) */
-        .page-shift-nav {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 999;
-        }
-        .shift-btn {
-            background: var(--jean-blue);
-            color: white;
-            border: 2px solid var(--sky-blue);
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            text-decoration: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: 0.3s;
-        }
-        .shift-btn:hover {
-            background: var(--sky-blue);
-            color: black;
-            transform: scale(1.1);
-        }
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0.85rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.25s;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--navy);
+      box-shadow: 0 8px 25px rgba(201,168,76,0.3);
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(201,168,76,0.45); }
+    .btn-wa {
+      background: #25D366;
+      color: white;
+      box-shadow: 0 8px 20px rgba(37,211,102,0.2);
+    }
+    .btn-wa:hover { background: #1ebe5d; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(248,246,241,0.25);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
 
-        /* Responsive Design */
-        @media (max-width: 900px) {
-            .hero-section { grid-template-columns: 1fr; text-align: center; }
-            .btn-group { justify-content: center; }
-            .carousel-container { height: 350px; }
-        }
-        @media (max-width: 600px) {
-            .header { justify-content: center; }
-            .badge { margin-left: 0; }
-            .hero-text h1 { font-size: 2.2rem; }
-            .services-grid { grid-template-columns: 1fr; }
-            .page-shift-nav { bottom: 15px; right: 15px; }
-            .shift-btn { width: 35px; height: 35px; font-size: 1rem; }
-        }
-    </style>
+    /* ── CAROUSEL ── */
+    .carousel-wrap {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      height: 520px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.15);
+    }
+    .carousel-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+    }
+    .carousel-slide.active { opacity: 1; z-index: 1; }
+    .carousel-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(10,22,40,0.1) 40%, rgba(10,22,40,0.85) 100%);
+    }
+    .carousel-caption {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      right: 2rem;
+      z-index: 2;
+    }
+    .carousel-caption span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .carousel-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .dot.active { width: 24px; border-radius: 3px; background: var(--gold); }
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      left: 1rem; right: 1rem;
+      pointer-events: none;
+    }
+    .c-btn {
+      pointer-events: all;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: rgba(10,22,40,0.6);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: white;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s;
+      backdrop-filter: blur(6px);
+    }
+    .c-btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
+      border-top: 1px solid rgba(201,168,76,0.15);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 2.5rem 4rem;
+    }
+    .stats-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+    .stat-divider {
+      border: none;
+      border-right: 1px solid rgba(201,168,76,0.15);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 4rem; max-width: 1400px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── ADVANTAGE CARDS ── */
+    .advantage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .adv-card {
+      background: var(--card);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .adv-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .adv-card:hover { transform: translateY(-6px); border-color: rgba(201,168,76,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .adv-card:hover::before { opacity: 1; }
+    .adv-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: var(--gold-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .adv-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--white);
+    }
+    .adv-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+
+    /* ── TALENT GRID ── */
+    .talent-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    .talent-card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
+    .talent-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .talent-card:hover img { transform: scale(1.08); }
+    .talent-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(10,22,40,0.9) 0%, rgba(10,22,40,0.1) 50%, transparent 100%);
+    }
+    .talent-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 2;
+      padding: 1.25rem 1rem 1rem;
+    }
+    .talent-label span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: white;
+      display: block;
+    }
+    .talent-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── SERVICES ── */
+    .services-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .service-panel {
+      background: var(--card);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: 20px;
+      padding: 2.5rem;
+      backdrop-filter: blur(10px);
+    }
+    .service-panel-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .panel-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--gold-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .service-panel-head h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+    .service-list { list-style: none; display: flex; flex-direction: column; gap: 1.1rem; }
+    .service-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 0.95rem;
+      color: rgba(248,246,241,0.8);
+      line-height: 1.6;
+    }
+    .svc-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: rgba(49,115,163,0.2);
+      border: 1px solid rgba(49,115,163,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--sky);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .service-list strong { color: var(--white); }
+
+    /* ── PARTNER CTA STRIP ── */
+    .partner-strip {
+      background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 24px;
+      padding: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin: 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .partner-strip::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.1), transparent 70%);
+    }
+    .partner-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .partner-text h2 em { font-style: italic; color: var(--gold); }
+    .partner-text p { color: var(--muted); font-size: 1rem; max-width: 480px; }
+    .partner-actions { display: flex; flex-direction: column; gap: 1rem; flex-shrink: 0; }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 6rem 4rem;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .contact-card {
+      background: var(--card);
+      border: 1px solid rgba(201,168,76,0.1);
+      border-radius: var(--radius);
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      transition: border-color 0.3s;
+    }
+    .contact-card:hover { border-color: rgba(201,168,76,0.3); }
+    .contact-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: var(--gold-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+    .contact-card h4 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .contact-card a {
+      display: block;
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.95rem;
+      line-height: 2;
+      transition: color 0.2s;
+    }
+    .contact-card a:hover { color: var(--gold); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(201,168,76,0.1);
+      padding: 2.5rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .footer-copy strong { color: var(--gold); font-weight: 600; }
+    .footer-tagline {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ── FLOAT NAV ── */
+    .float-nav {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .float-btn {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--navy-mid);
+      border: 1px solid rgba(201,168,76,0.25);
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none;
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      transition: all 0.25s;
+    }
+    .float-btn:hover { background: var(--gold); color: var(--navy); transform: scale(1.1); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .talent-grid { grid-template-columns: repeat(4, 1fr); }
+      .advantage-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; }
+      .carousel-wrap { height: 380px; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .advantage-grid { grid-template-columns: 1fr; }
+      .talent-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-wrap { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      section { padding: 4rem 2rem; }
+      .partner-strip { margin: 0 2rem; padding: 2.5rem; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      footer { padding: 2rem; flex-direction: column; text-align: center; }
+      .footer-tagline { text-align: center; }
+      .float-nav { bottom: 1rem; right: 1rem; }
+    }
+    @media (max-width: 600px) {
+      .talent-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .partner-strip { flex-direction: column; }
+      nav { gap: 0.75rem; }
+      .nav-brand { font-size: 1.1rem; }
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+  </style>
 </head>
 <body id="top">
 
-    <div class="page-shift-nav">
-        <a href="#top" class="shift-btn" title="Scroll Top"><i class="fas fa-arrow-up"></i></a>
-        <a href="#portfolio" class="shift-btn" title="Next Section"><i class="fas fa-arrow-down"></i></a>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- FLOAT NAV -->
+  <div class="float-nav">
+    <a href="#top" class="float-btn" title="Back to top"><i class="fas fa-arrow-up"></i></a>
+    <a href="#contact" class="float-btn" title="Contact"><i class="fas fa-envelope"></i></a>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <img src="https://i.ibb.co/7JrP6GZN/Terrysome-Logo.jpg" alt="Terrysome Logo" class="nav-logo" onerror="this.style.display='none'">
+    <div class="nav-brand">TERRYSOME <span>INVESTMENTS</span></div>
+    <ul class="nav-links">
+      <li><a href="#advantage">Why Uganda</a></li>
+      <li><a href="#talent">Talent</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-badge"><i class="fas fa-shield-check"></i> &nbsp;Licensed · 10+ Years</div>
+  </nav>
+
+  <div class="page">
+
+    <!-- ── HERO ── -->
+    <div class="hero" id="home">
+      <div class="hero-left">
+        <div class="hero-eyebrow">Labour Export · Uganda</div>
+        <h1>Exporting <em>elite talent</em> from Uganda to the world</h1>
+
+        <p class="hero-desc">A fully licensed recruitment partner placing skilled Ugandan professionals in top employers across the Middle East, Gulf, and beyond — with a decade of proven results.</p>
+
+        <div class="destinations">
+          <span class="dest-tag">🇸🇦 Saudi Arabia</span>
+          <span class="dest-tag">🇦🇪 Dubai / UAE</span>
+          <span class="dest-tag">🇶🇦 Qatar</span>
+          <span class="dest-tag">🇴🇲 Oman</span>
+          <span class="dest-tag">🇰🇼 Kuwait</span>
+          <span class="dest-tag">🇧🇭 Bahrain</span>
+          <span class="dest-tag">🇹🇷 Turkey</span>
+          <span class="dest-tag">🇯🇴 Jordan</span>
+          <span class="dest-tag">🌎 South America</span>
+        </div>
+
+        <a href="https://wa.me/256700346519" target="_blank" class="blink-jobs">
+          <i class="fas fa-bell"></i> JOBS ABROAD — Apply Now <i class="fas fa-arrow-right"></i>
+        </a>
+
+        <div class="hero-ctas">
+          <a href="https://wa.me/256709827964" target="_blank" class="btn btn-gold"><i class="fab fa-whatsapp"></i> Partner With Us</a>
+          <a href="mailto:business@terrysome.com" class="btn btn-outline"><i class="fas fa-envelope"></i> Email Us</a>
+        </div>
+      </div>
+
+      <!-- CAROUSEL -->
+      <div class="carousel-wrap">
+        <div class="carousel-nav">
+          <button class="c-btn" onclick="shiftSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+          <button class="c-btn" onclick="shiftSlide(1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div id="slides-wrapper"></div>
+        <div class="carousel-caption">
+          <span id="carousel-text"></span>
+          <div class="carousel-dots" id="dots"></div>
+        </div>
+      </div>
     </div>
 
-    <div class="content-wrapper">
-        <header class="header">
-            <img src="https://i.ibb.co/7JrP6GZN/Terrysome-Logo.jpg" alt="Terrysome Logo" class="logo" onerror="this.style.display='none'">
-            <div class="company-name">TERRYSOME <span>INVESTMENTS LTD</span></div>
-            <div class="badge"><i class="fas fa-check-circle"></i> Licensed · 10+ Years</div>
-        </header>
-
-        <section class="hero-section" id="home">
-            <div class="hero-text">
-                <a href="https://wa.me/256700346519" target="_blank" class="blink-notify">
-                    <i class="fas fa-bell"></i> JOBS ABROAD <i class="fas fa-arrow-right"></i>
-                </a>
-                <h1>Exporting talent from Uganda to the world</h1>
-                <p><i class="fas fa-globe-africa" style="color: var(--sky-blue);"></i> Saudi Arabia · Dubai · Qatar · Oman · Turkey · Bahrain · Kuwait · Jordan · South America</p>
-                <div class="btn-group">
-                    <a href="https://wa.me/256709827964" target="_blank" class="btn btn-wa"><i class="fab fa-whatsapp"></i> Partner With Us</a>
-                    <a href="#contact" class="btn btn-email"><i class="fas fa-envelope"></i> Email Us Today</a>
-                </div>
-            </div>
-
-            <div class="carousel-container">
-                <button class="carousel-btn prev-btn" onclick="shiftSlide(-1)"><i class="fas fa-chevron-left"></i></button>
-                <button class="carousel-btn next-btn" onclick="shiftSlide(1)"><i class="fas fa-chevron-right"></i></button>
-                
-                <div id="slides-wrapper">
-                    </div>
-            </div>
-        </section>
-
-        <section id="advantage">
-            <h2 class="section-title">The Ugandan Advantage</h2>
-            <p class="section-subtitle">Why recruiters globally prioritize our workers for their projects.</p>
-            <div class="grid-3">
-                <div class="info-card">
-                    <i class="fas fa-sync-alt"></i>
-                    <h3>Highly Adaptable</h3>
-                    <p>Ugandan workers integrate seamlessly. We provide comprehensive Pre-Departure Orientation covering culture, laws, and language basics.</p>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>Cost-Effective & Profitable</h3>
-                    <p>Access a young, energetic labor supply that maximizes your project profitability without compromising on work ethic or service quality.</p>
-                </div>
-                <div class="info-card">
-                    <i class="fas fa-comments"></i>
-                    <h3>English Speaking</h3>
-                    <p>Uganda is an English-speaking nation, ensuring smooth communication, fewer misunderstandings, and rapid onboarding.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="portfolio">
-            <h2 class="section-title">Our Talent Portfolio</h2>
-            <p class="section-subtitle">Strictly vetted, trade-tested professionals tailored to your industry.</p>
-            <div class="image-grid">
-                <div class="image-card"><img src="https://i.ibb.co/wh6mpQxK/delivery.jpg" alt="Delivery"><div class="image-label">Delivery Personnel</div></div>
-                <div class="image-card"><img src="https://i.ibb.co/mF9prSGX/maid.jpg" alt="Maids"><div class="image-label">House Maids</div></div>
-                <div class="image-card"><img src="https://i.ibb.co/5Wwzz4HT/construction.jpg" alt="Construction"><div class="image-label">Construction</div></div>
-                <div class="image-card"><img src="https://i.ibb.co/Rp7RrWjr/web-cleaner-3.jpg" alt="Cleaners"><div class="image-label">Cleaners</div></div>
-                <div class="image-card"><img src="https://i.ibb.co/xSg7JSdT/security.jpg" alt="Security"><div class="image-label">Security Guards</div></div>
-                <div class="image-card"><img src="https://i.ibb.co/q3DXnRyg/caregiver.jpg" alt="Caregivers"><div class="image-label">Caregivers & Nurses</div></div>
-                <div class="image-card"><img src="https://i.ibb.co/KnSvYj6/nanny.jpg" alt="Nannies"><div class="image-label">Nannies</div></div>
-                <div class="image-card"><img src="https://i.ibb.co/hR21kBnC/driver.jpg" alt="Drivers"><div class="image-label">Professional Drivers</div></div>
-            </div>
-        </section>
-
-        <section id="services">
-            <div class="services-grid">
-                <div class="info-card" style="text-align: left;">
-                    <h2 style="color: var(--jean-blue); margin-bottom: 1.5rem; font-size: 1.8rem;"><i class="fas fa-handshake" style="font-size: 1.8rem;"></i> For Foreign Partners</h2>
-                    <ul class="service-list">
-                        <li><i class="fas fa-search"></i> <strong>Talent Sourcing:</strong> Leveraging vast local networks for cultural alignment.</li>
-                        <li><i class="fas fa-user-check"></i> <strong>Vetting & Screening:</strong> Rigorous background and education checks.</li>
-                        <li><i class="fas fa-tools"></i> <strong>Trade Testing:</strong> Ensuring recruits meet international standards.</li>
-                        <li><i class="fas fa-gavel"></i> <strong>Legal Compliance:</strong> Management of bilateral agreements and contracts.</li>
-                        <li><i class="fas fa-shield-alt"></i> <strong>Replacement Guarantee:</strong> Performance assurance within probation.</li>
-                    </ul>
-                </div>
-                <div class="info-card" style="text-align: left;">
-                    <h2 style="color: var(--jean-blue); margin-bottom: 1.5rem; font-size: 1.8rem;"><i class="fas fa-users" style="font-size: 1.8rem;"></i> For Ugandan Workers</h2>
-                    <ul class="service-list">
-                        <li><i class="fas fa-briefcase"></i> <strong>Job Matching:</strong> Skill, experience, and salary alignment.</li>
-                        <li><i class="fas fa-passport"></i> <strong>Visa Processing:</strong> Full guidance on passports and travel documents.</li>
-                        <li><i class="fas fa-chalkboard-teacher"></i> <strong>Pre‑Departure Prep:</strong> Interpol, culture, laws, and language.</li>
-                        <li><i class="fas fa-stethoscope"></i> <strong>Medical Clearance:</strong> Accredited health screenings prior to deployment.</li>
-                        <li><i class="fas fa-headset"></i> <strong>On‑Site Support:</strong> 24/7 welfare hotline and local liaison assistance.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section class="contact-section" id="contact">
-            <h2 class="section-title" style="font-size: 2.2rem; margin-bottom: 0;">Contact Us</h2>
-            <div class="contact-grid">
-                <div class="contact-item">
-                    <i class="fas fa-building"></i>
-                    <h3>Office</h3>
-                    <a href="tel:+256393256602">+256 393 256602</a>
-                    <a href="tel:+256706496674">+256 706 496674</a>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-handshake"></i>
-                    <h3>Partnership / Jobs</h3>
-                    <a href="https://wa.me/256709827964" target="_blank">+256 709 827964 </a>
-                    <a href="https://wa.me/256700346519" target="_blank">+256 700 346519 </a>
-                </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <h3>Email</h3>
-                    <a href="mailto:business@terrysome.com">business@terrysome.com</a>
-                    <a href="mailto:jobs@terrysome.com">jobs@terrysome.com</a>
-                </div>
-            </div>
-            
-            <div class="footer-note">
-                <p>🚀 10+ years connecting Ugandan talent with the world | Fully licensed Labour Export Company</p>
-                <p>© Terrysome Investments Ltd — Professional vetting since 2015</p>
-            </div>
-        </section>
+    <!-- ── STATS BAR ── -->
+    <div class="stats-bar">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Years Licensed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">12</div>
+          <div class="stat-label">Destination Countries</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">5,000+</div>
+          <div class="stat-label">Workers Placed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">98%</div>
+          <div class="stat-label">Partner Retention Rate</div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        const slideData = [
-            { img: "https://i.ibb.co/B26dHLbN/Terrysome-HD-girls-3.jpg", text: "Ready For Global Deployment" },
-            { img: "https://i.ibb.co/Mys7wWX1/web-house-help-3.jpg", text: "Dedicated Professional House Maids" },
-            { img: "https://i.ibb.co/fdxds8D7/web-security.jpg", text: "Vigilant & Trained Security" },
-            { img: "https://i.ibb.co/HDB9HytZ/web-cleaner.jpg", text: "Commercial Space Cleaning Teams" },
-            { img: "https://i.ibb.co/spCxkz2c/Terrysome-HD-girls-7.jpg", text: "Highly Adaptable Skilled Labour" }
-        ];
+    <!-- ── ADVANTAGE ── -->
+    <section id="advantage">
+      <div class="section-label reveal">The Ugandan Advantage</div>
+      <h2 class="section-title reveal reveal-delay-1">Why global recruiters choose Uganda</h2>
+      <p class="section-sub reveal reveal-delay-2">Reliable, English-speaking, cost-effective talent — built for the demands of international employers.</p>
+      <div class="advantage-grid">
+        <div class="adv-card reveal">
+          <div class="adv-icon"><i class="fas fa-language"></i></div>
+          <h3>Native English Speakers</h3>
+          <p>Uganda is an English-speaking nation, guaranteeing seamless communication and rapid onboarding with minimal training overhead for your teams.</p>
+        </div>
+        <div class="adv-card reveal reveal-delay-1">
+          <div class="adv-icon"><i class="fas fa-sync-alt"></i></div>
+          <h3>Highly Adaptable</h3>
+          <p>Pre-Departure Orientation covers cultural norms, local laws, and workplace expectations — workers integrate from day one, wherever they're placed.</p>
+        </div>
+        <div class="adv-card reveal reveal-delay-2">
+          <div class="adv-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Cost-Effective & Profitable</h3>
+          <p>A young, energetic labour supply that maximizes your ROI without compromising on quality, reliability, or dedication to the role.</p>
+        </div>
+        <div class="adv-card reveal reveal-delay-1">
+          <div class="adv-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Fully Vetted & Tested</h3>
+          <p>Every candidate passes rigorous background checks, trade testing, and medical clearance. You receive only certified, placement-ready professionals.</p>
+        </div>
+        <div class="adv-card reveal reveal-delay-2">
+          <div class="adv-icon"><i class="fas fa-handshake"></i></div>
+          <h3>Replacement Guarantee</h3>
+          <p>Performance-backed placement with a full replacement guarantee within the probation period — zero risk for our international partners.</p>
+        </div>
+        <div class="adv-card reveal reveal-delay-3">
+          <div class="adv-icon"><i class="fas fa-headset"></i></div>
+          <h3>Dedicated 24/7 Support</h3>
+          <p>Our local liaisons provide continuous in-country support, welfare monitoring, and direct communication throughout every placement.</p>
+        </div>
+      </div>
+    </section>
 
-        const wrapper = document.getElementById('slides-wrapper');
-        let currentSlide = 0;
-        let slideInterval;
+    <!-- ── TALENT ── -->
+    <section id="talent">
+      <div class="section-label reveal">Our Talent Portfolio</div>
+      <h2 class="section-title reveal reveal-delay-1">Trade-tested professionals<br>built for international work</h2>
+      <p class="section-sub reveal reveal-delay-2">Strictly vetted across every category — matched precisely to your industry requirements.</p>
+      <div class="talent-grid">
+        <div class="talent-card reveal">
+          <img src="https://i.ibb.co/wh6mpQxK/delivery.jpg" alt="Delivery">
+          <div class="talent-label"><span>Delivery Personnel</span></div>
+        </div>
+        <div class="talent-card reveal reveal-delay-1">
+          <img src="https://i.ibb.co/mF9prSGX/maid.jpg" alt="House Maids">
+          <div class="talent-label"><span>House Maids</span></div>
+        </div>
+        <div class="talent-card reveal reveal-delay-2">
+          <img src="https://i.ibb.co/5Wwzz4HT/construction.jpg" alt="Construction">
+          <div class="talent-label"><span>Construction Workers</span></div>
+        </div>
+        <div class="talent-card reveal reveal-delay-3">
+          <img src="https://i.ibb.co/Rp7RrWjr/web-cleaner-3.jpg" alt="Cleaners">
+          <div class="talent-label"><span>Cleaners</span></div>
+        </div>
+        <div class="talent-card reveal">
+          <img src="https://i.ibb.co/xSg7JSdT/security.jpg" alt="Security">
+          <div class="talent-label"><span>Security Guards</span></div>
+        </div>
+        <div class="talent-card reveal reveal-delay-1">
+          <img src="https://i.ibb.co/q3DXnRyg/caregiver.jpg" alt="Caregivers">
+          <div class="talent-label"><span>Caregivers & Nurses</span></div>
+        </div>
+        <div class="talent-card reveal reveal-delay-2">
+          <img src="https://i.ibb.co/KnSvYj6/nanny.jpg" alt="Nannies">
+          <div class="talent-label"><span>Nannies</span></div>
+        </div>
+        <div class="talent-card reveal reveal-delay-3">
+          <img src="https://i.ibb.co/hR21kBnC/driver.jpg" alt="Drivers">
+          <div class="talent-label"><span>Professional Drivers</span></div>
+        </div>
+      </div>
+    </section>
 
-        // Initialize Slides
-        slideData.forEach((data, index) => {
-            const slide = document.createElement('div');
-            slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
-            slide.style.backgroundImage = `url('${data.img}')`;
-            
-            const overlay = document.createElement('div');
-            overlay.className = 'carousel-overlay';
-            overlay.innerHTML = `<div class="carousel-text">${data.text}</div>`;
-            
-            slide.appendChild(overlay);
-            wrapper.appendChild(slide);
-        });
+    <!-- ── SERVICES ── -->
+    <section id="services">
+      <div class="section-label reveal">What We Offer</div>
+      <h2 class="section-title reveal reveal-delay-1">End-to-end recruitment,<br>handled completely</h2>
+      <p class="section-sub reveal reveal-delay-2">From sourcing to on-site support — we own every step so you don't have to.</p>
+      <div class="services-wrap">
+        <div class="service-panel reveal">
+          <div class="service-panel-head">
+            <div class="panel-icon"><i class="fas fa-globe"></i></div>
+            <div>
+              <h3>For Foreign Partners</h3>
+              <p style="font-size:0.85rem;color:var(--muted);margin-top:0.25rem;">International employers & agencies</p>
+            </div>
+          </div>
+          <ul class="service-list">
+            <li>
+              <div class="svc-icon"><i class="fas fa-search"></i></div>
+              <div><strong>Talent Sourcing</strong> — Leveraging deep local networks for cultural alignment and skills fit.</div>
+            </li>
+            <li>
+              <div class="svc-icon"><i class="fas fa-user-check"></i></div>
+              <div><strong>Vetting & Screening</strong> — Rigorous background, education, and reference checks for every candidate.</div>
+            </li>
+            <li>
+              <div class="svc-icon"><i class="fas fa-tools"></i></div>
+              <div><strong>Trade Testing</strong> — Ensuring recruits meet and exceed international industry standards.</div>
+            </li>
+            <li>
+              <div class="svc-icon"><i class="fas fa-gavel"></i></div>
+              <div><strong>Legal Compliance</strong> — Management of bilateral agreements, contracts, and regulatory requirements.</div>
+            </li>
+            <li>
+              <div class="svc-icon"><i class="fas fa-shield-alt"></i></div>
+              <div><strong>Replacement Guarantee</strong> — Full performance assurance within the probationary period.</div>
+            </li>
+          </ul>
+        </div>
+        <div class="service-panel reveal reveal-delay-1">
+          <div class="service-panel-head">
+            <div class="panel-icon"><i class="fas fa-users"></i></div>
+            <div>
+              <h3>For Ugandan Workers</h3>
+              <p style="font-size:0.85rem;color:var(--muted);margin-top:0.25rem;">Job seekers ready for global opportunity</p>
+            </div>
+          </div>
+          <ul class="service-list">
+            <li>
+              <div class="svc-icon"><i class="fas fa-briefcase"></i></div>
+              <div><strong>Job Matching</strong> — Precise alignment of your skills, experience, and salary expectations.</div>
+            </li>
+            <li>
+              <div class="svc-icon"><i class="fas fa-passport"></i></div>
+              <div><strong>Visa Processing</strong> — Full, guided support on passports and international travel documents.</div>
+            </li>
+            <li>
+              <div class="svc-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+              <div><strong>Pre-Departure Prep</strong> — Interpol clearance, cultural orientation, and language essentials.</div>
+            </li>
+            <li>
+              <div class="svc-icon"><i class="fas fa-stethoscope"></i></div>
+              <div><strong>Medical Clearance</strong> — Accredited health screenings completed prior to deployment.</div>
+            </li>
+            <li>
+              <div class="svc-icon"><i class="fas fa-headset"></i></div>
+              <div><strong>On-Site Support</strong> — 24/7 welfare hotline and local liaison throughout your assignment.</div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-        const slides = document.querySelectorAll('.carousel-slide');
+    <!-- ── PARTNER CTA ── -->
+    <div class="partner-strip reveal">
+      <div class="partner-text">
+        <h2>Ready to hire <em>Uganda's finest?</em></h2>
+        <p>Whether you need 5 workers or 500, our team is ready to source, vet, and deploy the right talent within your timeline and budget.</p>
+      </div>
+      <div class="partner-actions">
+        <a href="https://wa.me/256709827964" target="_blank" class="btn btn-gold"><i class="fab fa-whatsapp"></i> &nbsp;WhatsApp Us Now</a>
+        <a href="mailto:business@terrysome.com" class="btn btn-outline"><i class="fas fa-envelope"></i> &nbsp;Send an Email</a>
+      </div>
+    </div>
 
-        function showSlide(index) {
-            slides.forEach(s => s.classList.remove('active'));
-            slides[index].classList.add('active');
-        }
+    <!-- ── CONTACT ── -->
+    <div class="contact-section" id="contact">
+      <div class="section-label reveal">Get In Touch</div>
+      <h2 class="section-title reveal reveal-delay-1">Contact Terrysome</h2>
+      <p class="section-sub reveal reveal-delay-2">Reach us directly via phone, WhatsApp, or email. We respond promptly to all partnership and job enquiries.</p>
+      <div class="contact-grid">
+        <div class="contact-card reveal">
+          <div class="contact-icon"><i class="fas fa-building"></i></div>
+          <h4>Office Lines</h4>
+          <a href="tel:+256393256602">+256 393 256 602</a>
+          <a href="tel:+256706496674">+256 706 496 674</a>
+        </div>
+        <div class="contact-card reveal reveal-delay-1">
+          <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+          <h4>Partnership & Jobs (WhatsApp)</h4>
+          <a href="https://wa.me/256709827964" target="_blank">+256 709 827 964</a>
+          <a href="https://wa.me/256700346519" target="_blank">+256 700 346 519</a>
+        </div>
+        <div class="contact-card reveal reveal-delay-2">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <h4>Email</h4>
+          <a href="mailto:business@terrysome.com">business@terrysome.com</a>
+          <a href="mailto:jobs@terrysome.com">jobs@terrysome.com</a>
+        </div>
+      </div>
+    </div>
 
-        function shiftSlide(direction) {
-            currentSlide = (currentSlide + direction + slides.length) % slides.length;
-            showSlide(currentSlide);
-            resetInterval();
-        }
+    <!-- ── FOOTER ── -->
+    <footer>
+      <div class="footer-copy">
+        © <strong>Terrysome Investments Ltd</strong> &nbsp;·&nbsp; Professional Labour Export Since 2015
+      </div>
+      <div class="footer-tagline">
+        Fully Licensed · 10+ Years Connecting Ugandan Talent with the World
+      </div>
+    </footer>
 
-        function nextSlide() {
-            shiftSlide(1);
-        }
+  </div><!-- /page -->
 
-        function resetInterval() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 3000); // 3 second interval
-        }
+  <script>
+    // ── CAROUSEL ──
+    const slideData = [
+      { img: "https://i.ibb.co/B26dHLbN/Terrysome-HD-girls-3.jpg", text: "Ready For Global Deployment" },
+      { img: "https://i.ibb.co/Mys7wWX1/web-house-help-3.jpg",     text: "Dedicated Professional House Maids" },
+      { img: "https://i.ibb.co/fdxds8D7/web-security.jpg",          text: "Vigilant & Trained Security Teams" },
+      { img: "https://i.ibb.co/HDB9HytZ/web-cleaner.jpg",           text: "Commercial Space Cleaning Experts" },
+      { img: "https://i.ibb.co/spCxkz2c/Terrysome-HD-girls-7.jpg",  text: "Highly Adaptable Skilled Labour" }
+    ];
 
-        // Start Auto Slider
-        resetInterval();
-        
-        // Dynamic Page Shift Button logic (changes anchor based on scroll)
-        window.addEventListener('scroll', () => {
-            const shiftBtn = document.querySelector('.fa-arrow-down').parentElement;
-            if(window.scrollY < 400) {
-                shiftBtn.href = '#advantage';
-            } else if (window.scrollY < 1200) {
-                shiftBtn.href = '#portfolio';
-            } else if (window.scrollY < 2000) {
-                shiftBtn.href = '#services';
-            } else {
-                shiftBtn.href = '#contact';
-            }
-        });
-    </script>
+    const wrapper = document.getElementById('slides-wrapper');
+    const captionText = document.getElementById('carousel-text');
+    const dotsEl = document.getElementById('dots');
+    let current = 0, timer;
+
+    slideData.forEach((d, i) => {
+      const s = document.createElement('div');
+      s.className = `carousel-slide ${i === 0 ? 'active' : ''}`;
+      s.style.backgroundImage = `url('${d.img}')`;
+      wrapper.appendChild(s);
+
+      const dot = document.createElement('div');
+      dot.className = `dot ${i === 0 ? 'active' : ''}`;
+      dot.onclick = () => goTo(i);
+      dotsEl.appendChild(dot);
+    });
+
+    captionText.textContent = slideData[0].text;
+
+    function goTo(n) {
+      document.querySelectorAll('.carousel-slide')[current].classList.remove('active');
+      document.querySelectorAll('.dot')[current].classList.remove('active');
+      current = (n + slideData.length) % slideData.length;
+      document.querySelectorAll('.carousel-slide')[current].classList.add('active');
+      document.querySelectorAll('.dot')[current].classList.add('active');
+      captionText.textContent = slideData[current].text;
+    }
+
+    function shiftSlide(dir) { goTo(current + dir); resetTimer(); }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => goTo(current + 1), 3500);
+    }
+
+    resetTimer();
+
+    // ── SCROLL REVEAL ──
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => obs.observe(el));
+
+    // ── FLOAT NAV scroll-aware ──
+    const downBtn = document.querySelector('.float-btn[title="Contact"]');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > document.body.scrollHeight - window.innerHeight - 200) {
+        downBtn.style.background = 'var(--gold)';
+        downBtn.style.color = 'var(--navy)';
+      } else {
+        downBtn.style.background = '';
+        downBtn.style.color = '';
+      }
+    });
+  </script>
 </body>
 </html>
